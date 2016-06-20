@@ -26,17 +26,6 @@ public class FollowTheMouse : MonoBehaviour
 
     }
 
-    void OnCollisionEnter2D(Collision2D  collission)
-    {
-        Debug.Log("Collision Enter !!!!");
-        GetComponent<SpriteRenderer>().color = Color.red;
-    }
-    void OnCollisionExit2D(Collision2D collission)
-    {
-        Debug.Log("Collision Exit !!!!");
-        GetComponent<SpriteRenderer>().color = Color.black;
-    }
-
 }
 
 // http://forum.unity3d.com/threads/make-object-follow-mouse-2d-game.211186/ // Script d'origine, j'ai remplacé Input.GetMouseButton(1) par Input.GetMouseButton(0)...
