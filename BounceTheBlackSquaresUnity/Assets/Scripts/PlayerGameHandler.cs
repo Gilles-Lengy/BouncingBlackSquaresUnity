@@ -1,16 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
+
 
 public class PlayerGameHandler : MonoBehaviour
 {
+
+    public float moveSpeed = 0.1f;
+    public float squareGravityScale = 1.3f;
+    public Text scoreText;
 
     private Vector3 mousePosition;
     private int gameState;// 0 = Place the big square, 1 = Squares are bouncing, 3 = Displaying the score
     private GameObject[] topBouncingSquares;
     private GameObject[] bottomBouncingSquares;
-
-    public float moveSpeed = 0.1f;
-    public float squareGravityScale = 1.3f;
+    private int score;
 
     // Use this for initialization
     void Start()
@@ -18,6 +22,9 @@ public class PlayerGameHandler : MonoBehaviour
         Debug.Log("Start !!!!");
         GetComponent<SpriteRenderer>().color = Color.black;
         gameState = 0;
+        score = 0;
+        setScoretext();
+
     }
 
     // Update is called once per frame
@@ -30,6 +37,8 @@ public class PlayerGameHandler : MonoBehaviour
             mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
             transform.position = Vector2.Lerp(transform.position, mousePosition, moveSpeed);
         }
+
+        // Set the Gravity Scale of the little squares and the, the funny part of the game starts !!!
         if (Input.GetMouseButtonUp(0) && gameState == 0)
         {
             Debug.Log("Let's BOUNCE !!!!");
@@ -57,6 +66,7 @@ public class PlayerGameHandler : MonoBehaviour
 
     /*************************************** 
      *  Change the color of the player 
+     *  Scoring as well
      * ************************************/
 
     void OnCollisionEnter2D(Collision2D collission)
@@ -64,15 +74,33 @@ public class PlayerGameHandler : MonoBehaviour
         if (collission.gameObject.tag == "BouncingSquareTop" || collission.gameObject.tag == "BouncingSquareBottom")
         {
             GetComponent<SpriteRenderer>().color = Color.black;
+            if (gameState == 1)
+            {
+                score = score + 1;
+                setScoretext();
+                Debug.Log(score);
+            }
+
         }
         else
         {
             GetComponent<SpriteRenderer>().color = Color.red;
+            if (gameState == 1)
+            {
+                score = score - 3;
+                setScoretext();
+                Debug.Log(score);
+            }
         }
     }
     void OnCollisionExit2D(Collision2D collission)
     {
         GetComponent<SpriteRenderer>().color = Color.black;
+    }
+
+    void setScoretext()
+    {
+        scoreText.text = "Score : " + score.ToString();
     }
 
 }
