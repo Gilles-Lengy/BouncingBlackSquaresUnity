@@ -9,12 +9,20 @@ public class PlayerGameHandler : MonoBehaviour
     public float moveSpeed = 0.1f;
     public float squareGravityScale = 1.3f;
     public Text scoreText;
+    public Text countDownText;
+
+    public float timeLeft = 300.0f;
 
     private Vector3 mousePosition;
     private int gameState;// 0 = Place the big square, 1 = Squares are bouncing, 3 = Displaying the score
     private GameObject[] topBouncingSquares;
     private GameObject[] bottomBouncingSquares;
     private int score;
+
+    private float minutes;
+    private float seconds;
+
+
 
     // Use this for initialization
     void Start()
@@ -79,6 +87,7 @@ public class PlayerGameHandler : MonoBehaviour
                 score = score + 1;
                 setScoretext();
                 Debug.Log(score);
+                startTimer(timeLeft);
             }
 
         }
@@ -103,4 +112,47 @@ public class PlayerGameHandler : MonoBehaviour
         scoreText.text = "Score : " + score.ToString();
     }
 
+    /*****************************
+     * Timer
+     * ***************************/
+
+    public void startTimer(float from)
+    {
+
+        timeLeft = from;
+        Update();
+        StartCoroutine(updateCoroutine());
+    }
+    void Update()
+    {
+        if (gameState == 3) return;
+        timeLeft -= Time.deltaTime;
+
+        minutes = Mathf.Floor(timeLeft / 60);
+        seconds = timeLeft % 60;
+        if (seconds > 59) {
+            seconds = 59;
+        }
+        if (minutes < 0)
+        {
+            gameState = 3;
+            minutes = 0;
+            seconds = 0;
+
+
+
+            Time.timeScale = 0.0F;// http://docs.unity3d.com/ScriptReference/Time-timeScale.html
+
+
+
+        }
+    }
+    private IEnumerator updateCoroutine()
+    {
+        while (gameState == 1)
+        {
+            countDownText.text = string.Format("{0:0}:{1:00}", minutes, seconds);
+            yield return new WaitForSeconds(0.2f);
+        }
+    }
 }
