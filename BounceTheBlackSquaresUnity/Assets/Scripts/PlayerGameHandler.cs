@@ -73,7 +73,8 @@ public class PlayerGameHandler : MonoBehaviour
     }
 
     /*************************************** 
-     *  Change the color of the player 
+     *  Change the color of the player
+     *  Launch the flash FX 
      *  Scoring as well
      * ************************************/
 
@@ -81,13 +82,15 @@ public class PlayerGameHandler : MonoBehaviour
     {
         if (collission.gameObject.tag == "BouncingSquareTop" || collission.gameObject.tag == "BouncingSquareBottom")
         {
-            GetComponent<SpriteRenderer>().color = Color.black;
+
             if (gameState == 1)
             {
+                FlashFX(true);
                 score = score + 1;
                 setScoretext();
                 Debug.Log(score);
                 startTimer(timeLeft);
+
             }
 
         }
@@ -104,12 +107,39 @@ public class PlayerGameHandler : MonoBehaviour
     }
     void OnCollisionExit2D(Collision2D collission)
     {
-        GetComponent<SpriteRenderer>().color = Color.black;
+        FlashFX(false);
     }
 
     void setScoretext()
     {
         scoreText.text = "Score : " + score.ToString();
+    }
+
+    /*****************************
+    * Flash FX
+    ****************************/
+
+    private void FlashFX(bool fxState = false)
+    {
+        GetComponent<SpriteRenderer>().color = (fxState ? Color.white : Color.black);
+
+        Camera.main.backgroundColor = (fxState ? Color.black : Color.white);
+
+        int maxTop = topBouncingSquares.Length;
+        for (int i = 0; i < maxTop; i++)
+        {
+
+            topBouncingSquares[i].GetComponent<SpriteRenderer>().color = (fxState ? Color.white : Color.black);
+
+        }
+        bottomBouncingSquares = GameObject.FindGameObjectsWithTag("BouncingSquareBottom");// Si on le fait dans le start, ça marche pas...
+        int maxBottom = bottomBouncingSquares.Length;
+        for (int i = 0; i < maxBottom; i++)
+        {
+
+            bottomBouncingSquares[i].GetComponent<SpriteRenderer>().color = (fxState ? Color.white : Color.black);
+
+        }
     }
 
     /*****************************
@@ -130,7 +160,8 @@ public class PlayerGameHandler : MonoBehaviour
 
         minutes = Mathf.Floor(timeLeft / 60);
         seconds = timeLeft % 60;
-        if (seconds > 59) {
+        if (seconds > 59)
+        {
             seconds = 59;
         }
         if (minutes < 0)
