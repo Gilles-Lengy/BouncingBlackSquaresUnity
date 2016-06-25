@@ -73,26 +73,29 @@ public class PlayerGameHandler : MonoBehaviour
         }
 
         if (gameState == 3) return;
-        timeLeft -= Time.deltaTime;
-
-        minutes = Mathf.Floor(timeLeft / 60);
-        seconds = timeLeft % 60;
-        if (seconds > 59)
+        if (gameState == 1)
         {
-            seconds = 59;
-        }
-        if (minutes < 0)
-        {
-            gameState = 3;
-            minutes = 0;
-            seconds = 0;
+            timeLeft -= Time.deltaTime;
+
+            minutes = Mathf.Floor(timeLeft / 60);
+            seconds = timeLeft % 60;
+            if (seconds > 59)
+            {
+                seconds = 59;
+            }
+            if (minutes < 0)
+            {
+                gameState = 3;
+                minutes = 0;
+                seconds = 0;
 
 
 
-            Time.timeScale = 0.0F;// http://docs.unity3d.com/ScriptReference/Time-timeScale.html
+                Time.timeScale = 0.0F;// http://docs.unity3d.com/ScriptReference/Time-timeScale.html
 
 
 
+            }
         }
     }
 
