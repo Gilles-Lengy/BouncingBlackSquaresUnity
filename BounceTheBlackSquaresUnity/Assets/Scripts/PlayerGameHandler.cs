@@ -9,7 +9,8 @@ public class PlayerGameHandler : MonoBehaviour
     public float moveSpeed = 0.1f;
     public float squareGravityScale = 1.3f;
     public Text scoreText;
-    public Text countDownText;
+    //public Text countDownText;
+
 
     public float timeLeft = 300.0f;
 
@@ -18,6 +19,7 @@ public class PlayerGameHandler : MonoBehaviour
     private GameObject[] topBouncingSquares;
     private GameObject[] bottomBouncingSquares;
     private int score;
+    private string countDownString;
 
     private float minutes;
     private float seconds;
@@ -30,26 +32,26 @@ public class PlayerGameHandler : MonoBehaviour
         Debug.Log("Start !!!!");
         GetComponent<SpriteRenderer>().color = Color.black;
         gameState = 0;
-        score = 0;
+        score = -777;
         setScoretext();
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
+    public void startTimer(float from)
     {
-        // Moves the player square before the game is launched
-        if (Input.GetMouseButton(0) && gameState == 0)
-        {
-            mousePosition = Input.mousePosition;
-            mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
-            transform.position = Vector2.Lerp(transform.position, mousePosition, moveSpeed);
-        }
 
+        timeLeft = from;
+        Update();
+        StartCoroutine(updateCoroutine());
+    }
+
+    void Update()
+    {
         // Set the Gravity Scale of the little squares and the, the funny part of the game starts !!!
         if (Input.GetMouseButtonUp(0) && gameState == 0)
         {
             Debug.Log("Let's BOUNCE !!!!");
             GetComponent<AudioSource>().Play();
+            score = 0;
             gameState = 1;
             topBouncingSquares = GameObject.FindGameObjectsWithTag("BouncingSquareTop");// Si on le fait dans le start, ça marche pas...
             int maxTop = topBouncingSquares.Length;
@@ -69,6 +71,43 @@ public class PlayerGameHandler : MonoBehaviour
             }
 
         }
+
+        if (gameState == 3) return;
+        timeLeft -= Time.deltaTime;
+
+        minutes = Mathf.Floor(timeLeft / 60);
+        seconds = timeLeft % 60;
+        if (seconds > 59)
+        {
+            seconds = 59;
+        }
+        if (minutes < 0)
+        {
+            gameState = 3;
+            minutes = 0;
+            seconds = 0;
+
+
+
+            Time.timeScale = 0.0F;// http://docs.unity3d.com/ScriptReference/Time-timeScale.html
+
+
+
+        }
+    }
+
+    // Update is called once per frame
+    void FixedUpdate()
+    {
+        // Moves the player square before the game is launched
+        if (Input.GetMouseButton(0) && gameState == 0)
+        {
+            mousePosition = Input.mousePosition;
+            mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
+            transform.position = Vector2.Lerp(transform.position, mousePosition, moveSpeed);
+        }
+
+
 
     }
 
@@ -114,7 +153,12 @@ public class PlayerGameHandler : MonoBehaviour
 
     void setScoretext()
     {
-        scoreText.text = "Score : " + score.ToString();
+        if (score != -777) { scoreText.text = score.ToString() + '/' + countDownString; }
+
+        else
+        {
+            scoreText.text = "";
+        }
     }
 
     /*****************************
@@ -148,43 +192,14 @@ public class PlayerGameHandler : MonoBehaviour
      * Timer
      * ***************************/
 
-    public void startTimer(float from)
-    {
-
-        timeLeft = from;
-        Update();
-        StartCoroutine(updateCoroutine());
-    }
-    void Update()
-    {
-        if (gameState == 3) return;
-        timeLeft -= Time.deltaTime;
-
-        minutes = Mathf.Floor(timeLeft / 60);
-        seconds = timeLeft % 60;
-        if (seconds > 59)
-        {
-            seconds = 59;
-        }
-        if (minutes < 0)
-        {
-            gameState = 3;
-            minutes = 0;
-            seconds = 0;
 
 
-
-            Time.timeScale = 0.0F;// http://docs.unity3d.com/ScriptReference/Time-timeScale.html
-
-
-
-        }
-    }
     private IEnumerator updateCoroutine()
     {
         while (gameState == 1)
         {
-            countDownText.text = string.Format("{0:0}:{1:00}", minutes, seconds);
+            countDownString = string.Format("{0:0}:{1:00}", minutes, seconds);
+            setScoretext();
             yield return new WaitForSeconds(0.2f);
         }
     }
