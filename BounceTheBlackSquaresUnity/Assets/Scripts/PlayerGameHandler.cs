@@ -32,7 +32,6 @@ public class PlayerGameHandler : MonoBehaviour
         gameState = 0;
         score = 0;
         setScoretext();
-
     }
 
     // Update is called once per frame
@@ -50,6 +49,7 @@ public class PlayerGameHandler : MonoBehaviour
         if (Input.GetMouseButtonUp(0) && gameState == 0)
         {
             Debug.Log("Let's BOUNCE !!!!");
+            GetComponent<AudioSource>().Play();
             gameState = 1;
             topBouncingSquares = GameObject.FindGameObjectsWithTag("BouncingSquareTop");// Si on le fait dans le start, ça marche pas...
             int maxTop = topBouncingSquares.Length;
@@ -86,6 +86,7 @@ public class PlayerGameHandler : MonoBehaviour
             if (gameState == 1)
             {
                 FlashFX(true);
+                GetComponent<AudioSource>().Play();
                 score = score + 1;
                 setScoretext();
                 Debug.Log(score);
@@ -99,6 +100,7 @@ public class PlayerGameHandler : MonoBehaviour
             GetComponent<SpriteRenderer>().color = Color.red;
             if (gameState == 1)
             {
+                collission.gameObject.GetComponent<AudioSource>().Play();
                 score = score - 3;
                 setScoretext();
                 Debug.Log(score);
