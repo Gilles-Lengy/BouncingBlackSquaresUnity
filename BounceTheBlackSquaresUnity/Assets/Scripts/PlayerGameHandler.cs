@@ -8,11 +8,25 @@ public class PlayerGameHandler : MonoBehaviour
 
     public float moveSpeed = 0.1f;
     public float squareGravityScale = 1.3f;
-    public Text scoreText;
-    //public Text countDownText;
-
+    
 
     public float timeLeft = 300.0f;
+
+    public Text scoreText;
+
+    public byte scoreTextColorR0 = 0;
+    public byte scoreTextColorG0 = 0;
+    public byte scoreTextColorB0 = 0;
+    public byte scoreTextColorA0 = 18;
+
+    public byte scoreTextColorR1 = 234;
+    public byte scoreTextColorG1 = 173;
+    public byte scoreTextColorB1 = 0;
+    public byte scoreTextColorA1 = 255;
+
+
+
+    
 
     private Vector3 mousePosition;
     private int gameState;// 0 = Place the big square, 1 = Squares are bouncing, 3 = Displaying the score
@@ -89,6 +103,8 @@ public class PlayerGameHandler : MonoBehaviour
                 minutes = 0;
                 seconds = 0;
 
+                setScoretext();
+
 
 
                 Time.timeScale = 0.0F;// http://docs.unity3d.com/ScriptReference/Time-timeScale.html
@@ -162,6 +178,11 @@ public class PlayerGameHandler : MonoBehaviour
         {
             scoreText.text = "";
         }
+
+        if (gameState == 3)
+        {
+            scoreText.color= new Color32(scoreTextColorR1, scoreTextColorG1, scoreTextColorB1, scoreTextColorA1);
+        }
     }
 
     /*****************************
@@ -171,6 +192,8 @@ public class PlayerGameHandler : MonoBehaviour
     private void FlashFX(bool fxState = false)
     {
         GetComponent<SpriteRenderer>().color = (fxState ? Color.white : Color.black);
+
+    scoreText.color = new Color32((fxState ? scoreTextColorR1 : scoreTextColorR0), (fxState ? scoreTextColorG1 : scoreTextColorG0), (fxState ? scoreTextColorB1 : scoreTextColorB0), (fxState ? scoreTextColorA1 : scoreTextColorA0));
 
         Camera.main.backgroundColor = (fxState ? Color.black : Color.white);
 
