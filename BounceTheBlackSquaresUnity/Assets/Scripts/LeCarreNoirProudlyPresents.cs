@@ -6,6 +6,7 @@ public class LeCarreNoirProudlyPresents : MonoBehaviour {
     public string[] str; //Your list of strings to show
     public int minSpacer = 50; //The minimum gap between labels
     public int wrapSpeed = 10; //How quickly the text should move in pixels per second
+    public Font f;
     int spacer = 0;
     int height = 0;
     int totalWidth = 0;
@@ -46,6 +47,8 @@ public class LeCarreNoirProudlyPresents : MonoBehaviour {
             int xPosWrap = xPos < 0 ? totalWidth + xPos : xPos - spacer;
             //Create a label at our wrapped position
             GUI.Label(new Rect(xPosWrap, 0, spacer, height), str[i]);
+            GUI.skin.font = f;
+
         }
 
         //End group
