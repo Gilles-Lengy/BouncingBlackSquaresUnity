@@ -41,13 +41,17 @@ public class LeCarreNoirProudlyPresents : MonoBehaviour {
         //Run a for loop for our strings to create a label for each
         for (int i = 0; i < str.Length; i++)
         {
+            GUI.skin.label.fontSize = 22;
+            GUI.skin.font = f;
+            GUI.color = Color.black;
             //Find the wrapped position of a label due to wrapPoint
             int xPos = (spacer * (i + 1) - wrapPoint) % (totalWidth + spacer);
             //Make sure we get the positive modulo rather than the negative side
             int xPosWrap = xPos < 0 ? totalWidth + xPos : xPos - spacer;
             //Create a label at our wrapped position
             GUI.Label(new Rect(xPosWrap, 0, spacer, height), str[i]);
-            GUI.skin.font = f;
+
+
 
         }
 
