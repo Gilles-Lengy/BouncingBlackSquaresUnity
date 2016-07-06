@@ -9,7 +9,7 @@ public class SpawnBlackSquares : MonoBehaviour {
         Vector3 currentPosition = spriteToDuplicate.transform.position;
         for (int i = 0; i < 20; i++)
         {
-            GameObject tmpObj = GameObject.Instantiate(spriteToDuplicate, currentPosition, Quaternion.identity) as GameObject;
+            GameObject.Instantiate(spriteToDuplicate, currentPosition, Quaternion.identity);
             currentPosition += new Vector3(1f, 0f, 0f);
         }
     }
