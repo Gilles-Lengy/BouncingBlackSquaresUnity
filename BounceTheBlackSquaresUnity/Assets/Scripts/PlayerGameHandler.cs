@@ -13,6 +13,7 @@ public class PlayerGameHandler : MonoBehaviour
     public float timeLeft = 300.0f;
 
     public Text scoreText;
+    public Text instructionsText;
 
     public byte scoreTextColorR0 = 0;
     public byte scoreTextColorG0 = 0;
@@ -65,6 +66,7 @@ public class PlayerGameHandler : MonoBehaviour
         {
             Debug.Log("Let's BOUNCE !!!!");
             GetComponent<AudioSource>().Play();
+            instructionsText.color = new Color32(0, 0, 0, 0);
             score = 0;
             gameState = 1;
             topBouncingSquares = GameObject.FindGameObjectsWithTag("BouncingSquareTop");// Si on le fait dans le start, ça marche pas...
