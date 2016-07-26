@@ -51,6 +51,16 @@ public class PlayerGameHandler : MonoBehaviour
         setScoretext();
     }
 
+    void OnMouseDown()
+    {
+        Debug.Log("OnMouseDown the big black square");
+    }
+
+    void OnMouseUp()
+    {
+        Debug.Log("OnMouseUp the big black square");
+    }
+
     public void startTimer(float from)
     {
 
