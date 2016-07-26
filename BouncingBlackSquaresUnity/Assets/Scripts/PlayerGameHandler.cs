@@ -76,20 +76,20 @@ public class PlayerGameHandler : MonoBehaviour
     void Update()
     {
         // Set the Gravity Scale of the little squares and the, the funny part of the game starts !!!
-        if (bigBlackSquareOnMouse == 1 && gameState == 0)
+        if (bigBlackSquareOnMouse == 2 && gameState == 0)
         {
             
             Debug.Log("Let's BOUNCE !!!!");
             GetComponent<AudioSource>().Play();
-            //instructionsText.color = new Color32(0, 0, 0, 0);
+            instructionsText.color = new Color32(0, 0, 0, 0);
             score = 0;
-            //gameState = 1;
+            gameState = 1;
             topBouncingSquares = GameObject.FindGameObjectsWithTag("BouncingSquareTop");// Si on le fait dans le start, ça marche pas...
             int maxTop = topBouncingSquares.Length;
             for (int i = 0; i < maxTop; i++)
             {
 
-                // topBouncingSquares[i].GetComponent<Rigidbody2D>().gravityScale = squareGravityScale;
+                topBouncingSquares[i].GetComponent<Rigidbody2D>().gravityScale = squareGravityScale;
                 Destroy(topBouncingSquares[i].GetComponent<DragMe>());// Destroy the script DragMe attached to the little black square duplicated
 
             }
@@ -98,7 +98,7 @@ public class PlayerGameHandler : MonoBehaviour
             for (int i = 0; i < maxBottom; i++)
             {
 
-                // bottomBouncingSquares[i].GetComponent<Rigidbody2D>().gravityScale = -squareGravityScale;
+                bottomBouncingSquares[i].GetComponent<Rigidbody2D>().gravityScale = -squareGravityScale;
                 Destroy(bottomBouncingSquares[i].GetComponent<DragMe>());// Destroy the script DragMe attached to the little black square duplicated
 
             }
