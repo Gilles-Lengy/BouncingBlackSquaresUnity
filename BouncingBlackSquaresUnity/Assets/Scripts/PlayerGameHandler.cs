@@ -138,15 +138,14 @@ public class PlayerGameHandler : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        // Moves the player square before the game is launched
-        /*
-        if (Input.GetMouseButton(0) && gameState == 0)
+        // Moves the big black square before the game is launched and whistle the big black square is OnMouseDown
+        if (bigBlackSquareOnMouse == 1 && gameState == 0)
         {
             mousePosition = Input.mousePosition;
             mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
             transform.position = Vector2.Lerp(transform.position, mousePosition, moveSpeed);
         }
-        */
+
 
 
 
