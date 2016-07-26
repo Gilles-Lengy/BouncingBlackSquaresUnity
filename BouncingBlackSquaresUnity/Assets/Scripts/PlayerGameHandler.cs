@@ -64,6 +64,7 @@ public class PlayerGameHandler : MonoBehaviour
         // Set the Gravity Scale of the little squares and the, the funny part of the game starts !!!
         if (Input.GetMouseButtonUp(0) && gameState == 0)
         {
+            /*
             Debug.Log("Let's BOUNCE !!!!");
             GetComponent<AudioSource>().Play();
             instructionsText.color = new Color32(0, 0, 0, 0);
@@ -85,6 +86,7 @@ public class PlayerGameHandler : MonoBehaviour
                 bottomBouncingSquares[i].GetComponent<Rigidbody2D>().gravityScale = -squareGravityScale;
 
             }
+            */
 
         }
 
@@ -121,12 +123,14 @@ public class PlayerGameHandler : MonoBehaviour
     void FixedUpdate()
     {
         // Moves the player square before the game is launched
+        /*
         if (Input.GetMouseButton(0) && gameState == 0)
         {
             mousePosition = Input.mousePosition;
             mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
             transform.position = Vector2.Lerp(transform.position, mousePosition, moveSpeed);
         }
+        */
 
 
 
